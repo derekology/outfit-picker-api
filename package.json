@@ -1,0 +1,24 @@
+{
+  "name": "outfit-picker-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.2",
+    "express-graphql": "^0.12.0",
+    "graphql": "^16.2.0",
+    "pg": "^8.7.3"
+  },
+  "engines": {
+    "node": "16.x",
+    "npm": "8.1.2"
+  }
+}
