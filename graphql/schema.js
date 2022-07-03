@@ -1,10 +1,12 @@
 const graphql = require("graphql");
 const { Client } = require("pg");
+const dotenv = require("dotenv")
+
+dotenv.config()
 
 
 const database = new Client({
   connectionString: process.env.DATABASE_URL,
-//   connectionString: 'postgres://postgres:password@localhost:5432/clothes',
   ssl: {
     rejectUnauthorized: false
   }
@@ -12,9 +14,9 @@ const database = new Client({
 
 database.connect();
 
-database.query("SELECT column_name FROM information_schema.columns WHERE table_schema = 'public' AND table_name = 'clothes';", (err, res) => {
+database.query("SELECT * FROM information_schema.tables WHERE table_schema = 'public';", (err, res) => {
   if (err) throw err;
-//   console.log(res.rows);  
+//   console.log(res.rows);
   console.log('Database connection established')
 //   database.end();
 });
