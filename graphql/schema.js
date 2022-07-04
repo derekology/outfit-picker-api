@@ -7,7 +7,7 @@ dotenv.config()
 
 const database = new Client({
   connectionString: process.env.DATABASE_URL,
-  ssl: process.env.DATABASE_URL_SSL
+  ssl: JSON.parse(process.env.DATABASE_URL_SSL)
 });
 
 database.connect();
