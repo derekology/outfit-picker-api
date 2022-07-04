@@ -7,9 +7,9 @@ dotenv.config()
 
 const database = new Client({
   connectionString: process.env.DATABASE_URL,
-  ssl: {
-    rejectUnauthorized: false
-  }
+//   ssl: {
+//     rejectUnauthorized: false
+//   }
 });
 
 database.connect();
@@ -52,7 +52,7 @@ var queryType = new graphql.GraphQLObjectType({
             resolve: (root, {userid}, context, info) => {
                 return new Promise((resolve, reject) => {
                     // raw query to select from table
-                    const text = "SELECT * FROM clothes WHERE userid=($1);"
+                    const text = "SELECT * FROM clothes WHERE userid=($1) ORDER BY created ASC;"
                     const values = [{userid}.userid]
                     database.query(text, values, (err, res) => {  
                         if(err) {
@@ -163,8 +163,8 @@ var mutationType = new graphql.GraphQLObjectType({
       },
       //mutation for update
       updateClothing: {
-        //type of object to return afater update
-        type: graphql.GraphQLString,
+        //type of object to return after update
+        type: ClothingType,
         //argument of mutation createClothing to get from request
         args:{
             id:{
@@ -181,13 +181,16 @@ var mutationType = new graphql.GraphQLObjectType({
             },
             weight:{
                   type: new graphql.GraphQLNonNull(graphql.GraphQLString)
-            }             
+            },
+            updated:{
+                  type: new graphql.GraphQLNonNull(graphql.GraphQLString)
+            }      
         },
-        resolve: (root, {id, type, article, colour, weight}) => {
+        resolve: (root, {id, type, article, colour, weight, updated}) => {
             return new Promise((resolve, reject) => {
                 //raw to update clothing in clothes table
-                const text = "UPDATE clothes SET type = ($1), article = ($2), colour = ($3), weight = ($4) WHERE id = ($5);"
-                const data = [{type}.type, {article}.article, {colour}.colour, {weight}.weight, {id}.id]
+                const text = "UPDATE clothes SET type = ($1), article = ($2), colour = ($3), weight = ($4), updated = ($5) WHERE id = ($6);"
+                const data = [{type}.type, {article}.article, {colour}.colour, {weight}.weight, {updated}.updated, {id}.id]
                 database.query(text, data, (err) => {
                     if(err) {
                         reject(err);
